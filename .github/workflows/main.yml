@@ -6,12 +6,12 @@ name: CI
 on: [push]
 
 jobs:
-  build:
+  build & test:
 
     # Machine environment:
     # https://help.github.com/en/articles/software-in-virtual-environments-for-github-actions#ubuntu-1804-lts
     # We specify the Node.js version manually below, and use versioned Chrome from Puppeteer.
-    runs-on: ubuntu-18.04
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v1
@@ -29,4 +29,18 @@ jobs:
       run: npm test -- --configuration=ci
     - name: E2E
       run: npm run e2e -- --configuration=ci
-
+      
+  dockerize:
+    name: Push Docker image to Docker Hub
+    runs-on: windows-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Push to Docker Hub
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: mariamkhaled/webapp
+          tag_with_ref: true
+  
