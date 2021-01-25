@@ -6,7 +6,7 @@ name: CI
 on: [push]
 
 jobs:
-  build & test:
+  buildandtest:
 
     # Machine environment:
     # https://help.github.com/en/articles/software-in-virtual-environments-for-github-actions#ubuntu-1804-lts
